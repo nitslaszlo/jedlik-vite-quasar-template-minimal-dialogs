@@ -1,0 +1,51 @@
+{
+  "name": "jedlik-vite-quasar-minimal",
+  "version": "1.0.0",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
+  "scripts": {
+    "dev": "vite --port 8080 --open",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --ignore-path .gitignore --fix",
+    "format": "prettier --write ./**/*.{vue,ts,tsx,js,jsx,css,less,scss,json,md}",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "cypress open"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.15.4",
+    "@vueuse/core": "^9.3.0",
+    "@vueuse/math": "^9.3.0",
+    "@vueuse/shared": "^9.3.0",
+    "axios": "^0.27.2",
+    "pinia": "^2.0.22",
+    "quasar": "^2.8.4",
+    "tslib": "^2.4.0",
+    "vue": "^3.2.40",
+    "vue-global-api": "^0.4.1",
+    "vue-router": "^4.1.5"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.2.3",
+    "@types/node": "^16.11.60",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
+    "@vitejs/plugin-vue": "^3.1.2",
+    "@vue/test-utils": "^2.1.0",
+    "cypress": "^10.9.0",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.5.1",
+    "jsdom": "^20.0.1",
+    "sass": "1.32.12",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.4",
+    "vitest": "^0.23.4",
+    "vue-tsc": "^0.40.13"
+  }
+}
