@@ -63,6 +63,7 @@
     <div class="row window-height flex-center">
       <q-btn
         v-if="!r.showDialog"
+        class="shadow-10"
         color="info"
         :label="anyLoggedUser ? 'Show logout dialog' : 'Show login dialog'"
         no-caps
