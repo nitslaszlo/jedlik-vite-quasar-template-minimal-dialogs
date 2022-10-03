@@ -9,22 +9,20 @@
     showDialog: boolean;
     email: string;
     password: string;
-    length: boolean;
-    upper: boolean;
-    lower: boolean;
-    special: boolean;
-    number: boolean;
+    check: [number, boolean, string][];
   }
 
   const r = reactive<IReactiveData>({
     showDialog: false,
     email: "student001@jedlik.eu",
     password: "student001",
-    length: false,
-    upper: false,
-    lower: false,
-    special: false,
-    number: false,
+    check: [
+      [0, false, "Lenght >= 8"],
+      [1, false, "Upper case char"],
+      [2, false, "Lower case char"],
+      [3, false, "Special char"],
+      [4, false, "Number"],
+    ],
   });
 
   function LogInOut() {
@@ -45,13 +43,15 @@
   }
 
   function isValidPassword(pass: string): boolean | string {
-    r.upper = /[A-Z]/.test(pass);
-    r.lower = /[a-z]/.test(pass);
-    r.number = /\d/.test(pass);
-    r.special = /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(pass);
-    r.length = pass.length >= 8;
     if (pass.length == 0) return "Please fill in!";
-    if (r.upper && r.lower && r.number && r.special && r.length) return true;
+    r.check[0][1] = pass.length >= 8;
+    r.check[1][1] = /[A-Z]/.test(pass);
+    r.check[2][1] = /[a-z]/.test(pass);
+    r.check[3][1] = /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(pass);
+    r.check[4][1] = /\d/.test(pass);
+
+    if (r.check[0][1] && r.check[1][1] && r.check[2][1] && r.check[3][1] && r.check[4][1])
+      return true;
     else return false;
   }
 
@@ -92,53 +92,15 @@
         <q-card-section v-if="!anyLoggedUser" class="no-padding">
           <div class="column">
             <q-checkbox
-              v-model="r.length"
+              v-for="e in r.check"
+              :key="e[0]"
+              v-model="e[1]"
               checked-icon="star"
-              :class="r.length ? 'text-green' : 'text-red'"
-              :color="r.length ? 'green' : 'red'"
+              :class="e[1] ? 'text-green' : 'text-red'"
+              :color="e[1] ? 'green' : 'red'"
               disable
               keep-color
-              label="Lenght >= 8"
-              unchecked-icon="star_border"
-            />
-            <q-checkbox
-              v-model="r.upper"
-              checked-icon="star"
-              :class="r.upper ? 'text-green' : 'text-red'"
-              :color="r.upper ? 'green' : 'red'"
-              disable
-              keep-color
-              label="Upper case char"
-              unchecked-icon="star_border"
-            />
-            <q-checkbox
-              v-model="r.lower"
-              checked-icon="star"
-              :class="r.lower ? 'text-green' : 'text-red'"
-              :color="r.lower ? 'green' : 'red'"
-              disable
-              keep-color
-              label="Lower case char"
-              unchecked-icon="star_border"
-            />
-            <q-checkbox
-              v-model="r.special"
-              checked-icon="star"
-              :class="r.special ? 'text-green' : 'text-red'"
-              :color="r.special ? 'green' : 'red'"
-              disable
-              keep-color
-              label="Special char"
-              unchecked-icon="star_border"
-            />
-            <q-checkbox
-              v-model="r.number"
-              checked-icon="star"
-              :class="r.number ? 'text-green' : 'text-red'"
-              :color="r.number ? 'green' : 'red'"
-              disable
-              keep-color
-              label="Number"
+              :label="e[2]"
               unchecked-icon="star_border"
             />
           </div>
