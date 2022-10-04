@@ -5,24 +5,23 @@
 
   const anyLoggedUser = computed(() => (usersStore.getLoggedUser ? true : false));
 
+  interface IMapData {
+    isOk: boolean;
+    label: string;
+  }
+
   interface IReactiveData {
     showDialog: boolean;
     email: string;
     password: string;
-    check: [number, boolean, string][];
+    check: Map<string, IMapData>;
   }
 
   const r = reactive<IReactiveData>({
     showDialog: false,
     email: "student001@jedlik.eu",
     password: "student001",
-    check: [
-      [0, false, "Lenght >= 8"],
-      [1, false, "Upper case char"],
-      [2, false, "Lower case char"],
-      [3, false, "Special char"],
-      [4, false, "Number"],
-    ],
+    check: new Map(),
   });
 
   function LogInOut() {
@@ -43,18 +42,25 @@
   }
 
   function isValidPassword(pass: string): boolean | string {
+    r.check.set("length", { isOk: pass.length >= 8, label: "Length >= 8" });
+    r.check.set("upper", { isOk: /[A-Z]/.test(pass), label: "Uppercase char(s)" });
+    r.check.set("lower", { isOk: /[a-z]/.test(pass), label: "Lowercase char(s)" });
+    r.check.set("special", {
+      isOk: /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(pass),
+      label: "Special char(s)",
+    });
+    r.check.set("number", { isOk: /\d/.test(pass), label: "Number(s)" });
     if (pass.length == 0) return "Please fill in!";
-    r.check[0][1] = pass.length >= 8;
-    r.check[1][1] = /[A-Z]/.test(pass);
-    r.check[2][1] = /[a-z]/.test(pass);
-    r.check[3][1] = /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(pass);
-    r.check[4][1] = /\d/.test(pass);
-
-    if (r.check[0][1] && r.check[1][1] && r.check[2][1] && r.check[3][1] && r.check[4][1])
+    if (
+      r.check.get("length")?.isOk &&
+      r.check.get("upper")?.isOk &&
+      r.check.get("lower")?.isOk &&
+      r.check.get("special")?.isOk &&
+      r.check.get("number")?.isOk
+    )
       return true;
     else return false;
   }
-
   isValidPassword(r.password);
 </script>
 
@@ -71,40 +77,52 @@
       />
     </div>
 
-    <q-dialog v-model="r.showDialog" persistent transition-hide="rotate" transition-show="rotate">
-      <q-card class="q-pa-xs" style="min-width: 250px">
-        <q-card-section>
-          <div class="text-h6">Your e-mail address</div>
-          <q-input
-            v-model="r.email"
-            :disable="anyLoggedUser"
-            filled
-            :rules="[(v) => (v != null && v != '') || 'Please fill in!', isValidEmail]"
-            type="text"
-          />
-        </q-card-section>
+    <q-dialog v-model="r.showDialog" persistent transition-show="rotate">
+      <q-card class="q-pa-xs" style="width: 100%">
+        <div class="row flex-center">
+          <div class="col-xs-12 col-sm-6">
+            <q-card-section>
+              <!-- <div class="text-h6">E-mail address</div> -->
+              <q-input
+                v-model="r.email"
+                :disable="anyLoggedUser"
+                filled
+                label="E-mail address"
+                :rules="[(v) => (v != null && v != '') || 'Please fill in!', isValidEmail]"
+                type="text"
+              />
+            </q-card-section>
 
-        <q-card-section v-if="!anyLoggedUser">
-          <div class="text-h6">Your password</div>
-          <q-input v-model="r.password" filled :rules="[isValidPassword]" type="password" />
-        </q-card-section>
-
-        <q-card-section v-if="!anyLoggedUser" class="no-padding">
-          <div class="column">
-            <q-checkbox
-              v-for="e in r.check"
-              :key="e[0]"
-              v-model="e[1]"
-              checked-icon="star"
-              :class="e[1] ? 'text-green' : 'text-red'"
-              :color="e[1] ? 'green' : 'red'"
-              disable
-              keep-color
-              :label="e[2]"
-              unchecked-icon="star_border"
-            />
+            <q-card-section v-if="!anyLoggedUser">
+              <!-- <div class="text-h6">Password</div> -->
+              <q-input
+                v-model="r.password"
+                filled
+                label="Password"
+                :rules="[isValidPassword]"
+                type="password"
+              />
+            </q-card-section>
           </div>
-        </q-card-section>
+          <div class="col-xs-12 col-sm-6">
+            <q-card-section v-if="!anyLoggedUser" class="no-padding">
+              <div class="column">
+                <q-checkbox
+                  v-for="e in r.check.entries()"
+                  :key="e[0]"
+                  v-model="e[1].isOk"
+                  checked-icon="star"
+                  :class="e[1].isOk ? 'text-green' : 'text-red'"
+                  :color="e[1].isOk ? 'green' : 'red'"
+                  disable
+                  keep-color
+                  :label="e[1].label"
+                  unchecked-icon="star_border"
+                />
+              </div>
+            </q-card-section>
+          </div>
+        </div>
 
         <q-card-actions align="center" class="text-primary">
           <q-btn
