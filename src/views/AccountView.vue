@@ -12,7 +12,7 @@
   }
 
   const r = reactive<IReactiveData>({
-    showDialog: false,
+    showDialog: true,
   });
 
   function closeLoginDialog() {
@@ -32,13 +32,13 @@
         no-caps
         @click="r.showDialog = true"
       />
+      <LoginDialog
+        email="student001@jedlik.eu"
+        password="student001"
+        :show-dialog="r.showDialog"
+        @close-login-dialog="closeLoginDialog()"
+      />
     </div>
-    <LoginDialog
-      email="student001@jedlik.eu"
-      password="student001"
-      :show-dialog="r.showDialog"
-      @close-login-dialog="closeLoginDialog()"
-    />
   </q-page>
 </template>
 

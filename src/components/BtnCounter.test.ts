@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { mountQuasar } from "../test/utils";
+import { mountQuasar } from "../../test/utils";
 import BtnCounter from "./BtnCounter.vue";
 
 test("BtnCounter", async () => {
@@ -33,8 +33,8 @@ test("BtnCounter", async () => {
 
   expect(inner.get('[data-test="counter"]').text()).toBe("-1");
 
-  console.log("html():");
-  console.log(wrapper.html());
-  console.log("text():");
-  console.log(wrapper.text());
+  // console.log("html():");
+  // console.log(wrapper.html());
+  // console.log("text():");
+  // console.log(wrapper.text());
 });

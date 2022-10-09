@@ -23,9 +23,9 @@ export default defineConfig({
 
   // https://github.com/vitest-dev/vitest
   test: {
-    include: ["test/**/*.test.ts"],
+    include: ["test/**/*.test.ts", "src/**/*.test.ts"],
     globals: true,
-    environment: "happy-dom",
+    environment: "jsdom",
     setupFiles: ["./test/setup.ts"],
     deps: {
       inline: ["@vue", "@vueuse", "vue-demi"],

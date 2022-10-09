@@ -26,6 +26,7 @@
   interface IMapData {
     isOk: boolean;
     label: string;
+    test: string;
   }
 
   interface IReactiveData {
@@ -58,20 +59,31 @@
   // defineExpose({ isValidEmail });
 
   function isValidPassword(pass: string): boolean | string {
-    r.check.set("length", { isOk: LoginHelper.IsLengthOk(pass), label: "Length >= 8" });
+    r.check.set("length", {
+      isOk: LoginHelper.IsLengthOk(pass),
+      label: "Length >= 8",
+      test: "QCheckBoxLength",
+    });
     r.check.set("upper", {
       isOk: LoginHelper.IsAnyUppercaseChar(pass),
       label: "Uppercase char(s)",
+      test: "QCheckBoxUpper",
     });
     r.check.set("lower", {
       isOk: LoginHelper.IsAnyLowercaseChar(pass),
       label: "Lowercase char(s)",
+      test: "QCheckBoxLower",
     });
     r.check.set("special", {
       isOk: LoginHelper.IsAnySpecialChar(pass),
       label: "Special char(s)",
+      test: "QCheckBoxSpecial",
     });
-    r.check.set("number", { isOk: LoginHelper.IsAnyNumber(pass), label: "Number(s)" });
+    r.check.set("number", {
+      isOk: LoginHelper.IsAnyNumber(pass),
+      label: "Number(s)",
+      test: "QCheckBoxNumber",
+    });
     if (pass.length == 0) return "Please fill in!";
     return (r.check.get("length")?.isOk &&
       r.check.get("upper")?.isOk &&
@@ -83,15 +95,14 @@
 </script>
 
 <template>
-  <h5>Login {{ anyLoggedUser }} próba</h5>
   <q-dialog v-model="$props.showDialog" persistent transition-show="rotate">
     <q-card class="q-pa-xs" style="width: 100%">
       <div class="row flex-center">
         <div class="col-xs-12 col-sm-6">
           <q-card-section>
-            <h5>Login próba</h5>
             <q-input
               v-model="r.email"
+              data-test="QInputEmail"
               :disable="anyLoggedUser"
               filled
               label="E-mail address"
@@ -103,6 +114,7 @@
           <q-card-section v-if="!anyLoggedUser">
             <q-input
               v-model="r.password"
+              data-test="QInputPassword"
               filled
               label="Password"
               :rules="[isValidPassword]"
@@ -120,6 +132,7 @@
                 checked-icon="star"
                 :class="e[1].isOk ? 'text-green' : 'text-red'"
                 :color="e[1].isOk ? 'green' : 'red'"
+                :data-test="e[1].test"
                 disable
                 keep-color
                 :label="e[1].label"
@@ -134,6 +147,7 @@
         <q-btn
           class="q-mr-md"
           color="green"
+          data-test="btnLoginLogout"
           :label="anyLoggedUser ? 'Logout' : 'Login'"
           no-caps
           type="button"
@@ -141,6 +155,7 @@
         />
         <q-btn
           color="red"
+          data-test="btnClose"
           label="Close dialog"
           no-caps
           type="button"
