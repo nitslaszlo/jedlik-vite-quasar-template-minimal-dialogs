@@ -27,6 +27,7 @@
         v-if="!r.showDialog"
         class="shadow-10"
         color="info"
+        data-test="btnShow"
         :label="anyLoggedUser ? 'Show logout dialog' : 'Show login dialog'"
         no-caps
         @click="r.showDialog = true"
