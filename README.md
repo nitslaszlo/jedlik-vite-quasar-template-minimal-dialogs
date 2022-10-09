@@ -37,9 +37,6 @@ As an asynchronous event-driven JavaScript runtime, [Node.js](https://nodejs.org
 
 ["VueUse"](https://vueuse.org/) is a collection of utility functions based on Composition API. We assume you are already familiar with the basic ideas of Composition API before you continue.
 
-## vue-global-api
-
-Use Vue Composition API globally instead of import APIs from vue in every file. [GitHub](https://github.com/antfu/vue-global-api)
 
 ## TypeScript
 

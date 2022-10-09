@@ -83,6 +83,7 @@
 </script>
 
 <template>
+  <h5>Login {{ anyLoggedUser }} próba</h5>
   <q-dialog v-model="$props.showDialog" persistent transition-show="rotate">
     <q-card class="q-pa-xs" style="width: 100%">
       <div class="row flex-center">

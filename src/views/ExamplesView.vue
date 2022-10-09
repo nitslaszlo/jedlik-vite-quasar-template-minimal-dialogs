@@ -2,6 +2,7 @@
   import ColorChecker from "../components/ColorChecker.vue";
   import Counter from "../components/Counter.vue";
   import HelloWorld from "../components/HelloWorld.vue";
+  import { reactive, computed, watchEffect } from "vue";
 
   interface IReactiveData {
     felkialtojelDarab: number;

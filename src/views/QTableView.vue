@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { QTableColumn } from "quasar";
   import { usePostsStore } from "../store/postsStore";
+  import { ref, watch, onMounted } from "vue";
 
   const postsStore = usePostsStore();
   // Selected row(s) -> selection="single" or selection="multiple"

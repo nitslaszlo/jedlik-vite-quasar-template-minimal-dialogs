@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import router from "src/router";
   import { useUsersStore } from "./store/usersStore";
+  import { ref } from "vue";
 
   const leftDrawer = ref<boolean>(true);
   const usersStore = useUsersStore();
