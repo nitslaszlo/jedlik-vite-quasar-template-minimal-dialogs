@@ -1,4 +1,4 @@
-import { QInput, QBtn } from "quasar";
+import { QInput, QBtn, Quasar } from "quasar";
 import { test, expect } from "vitest";
 import { mountQuasar } from "../../test/utils";
 import LoginDialog from "src/components/LoginDialog.vue";
@@ -14,6 +14,9 @@ test("Test AccountView", async () => {
         teleport: true,
       },
     },
+    mocks: {
+      $q: Quasar,
+    },
     plugins: [QInput, QBtn],
   });
 
@@ -21,15 +24,18 @@ test("Test AccountView", async () => {
 
   const inner = wrapper.findComponent(LoginDialog);
 
-  const inputPassword = inner.find('[data-test="QInputPassword"');
+  const inputPassword = inner.find('[data-test="QInputPassword"]');
 
   await inputPassword.setValue("alma");
   // expect(inputPassword.element).toBe("alma");
   // expect(inner.get('[data-test="QCheckBoxLength"]').isVisible());
-  expect(inner.get('[data-test="QCheckBoxLength"]').classes()).toContain("text-green");
+  // expect(inner.get('[data-test="QCheckBoxLength"]').classes()).toContain("text-green");
 
-  console.log("html():");
-  console.log(inner.html());
+  expect(inputPassword.getCurrentComponent()?.props.modelValue).toBe("student001");
+  console.log(inputPassword.html());
+
+  // console.log("html():");
+  // console.log(inner.html());
   // console.log("text():");
   // console.log(inputPassword.text());
 });

@@ -27,6 +27,9 @@ export default defineConfig({
     globals: true,
     environment: "happy-dom",
     setupFiles: ["./test/setup.ts"],
+    coverage: {
+      provider: "istanbul", // or 'c8'
+    },
     deps: {
       inline: ["@vue", "@vueuse", "vue-demi"],
     },

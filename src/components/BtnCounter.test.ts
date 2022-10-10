@@ -1,6 +1,7 @@
 import { it, expect } from "vitest";
 import { mountQuasar } from "../../test/utils";
 import BtnCounter from "./BtnCounter.vue";
+import { QInput, QBtn } from "quasar";
 
 describe("BtnCounter test", () => {
   it("BtnCounter", async () => {
@@ -10,6 +11,7 @@ describe("BtnCounter test", () => {
       props: {
         supper: true,
       },
+      plugins: [QInput, QBtn],
     });
 
     await wrapper.setProps({ supper: false });
@@ -34,22 +36,19 @@ describe("BtnCounter test", () => {
 
     expect(inner.get('[data-test="counter"]').text()).toBe("-1");
 
-    // console.log(inner.get('[data-test="color"]'));
-
-    // Set input value
+    // Set QInput value
     const input = inner.find('[data-test="color"]');
-    await input.setValue("kilincs");
-    await input.trigger("change");
+    expect(input.getCurrentComponent()?.props.modelValue).toBe("yellow");
+    await input.setValue("green");
+    // await input.trigger("change");
 
-    expect(inner.get('[data-test="color"]').text()).toBe("kilincs");
-
-    // console.log(input);
+    expect(input.getCurrentComponent()?.props.modelValue).toBe("green");
 
     // input.element.value = "green";
     // input.trigger("change");
 
     // console.log("html():");
-    // console.log(wrapper.html());
+    // console.log(input.getCurrentComponent()?.props);
     // console.log("text():");
     // console.log(inner.text());
   });
