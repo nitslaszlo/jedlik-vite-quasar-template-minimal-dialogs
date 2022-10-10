@@ -25,7 +25,7 @@ export default defineConfig({
   test: {
     include: ["test/**/*.test.ts", "src/**/*.test.ts"],
     globals: true,
-    environment: "jsdom",
+    environment: "happy-dom",
     setupFiles: ["./test/setup.ts"],
     deps: {
       inline: ["@vue", "@vueuse", "vue-demi"],

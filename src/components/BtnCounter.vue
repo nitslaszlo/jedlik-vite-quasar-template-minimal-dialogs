@@ -5,6 +5,7 @@
     supper: Boolean,
   });
   const counter = ref(0);
+  const color = ref("yellow");
   const $q = useQuasar();
   const version = computed(() => $q.version);
   const plus = () => {
@@ -29,5 +30,13 @@
       <q-btn data-test="minus" @click="minus">-</q-btn>
       <q-btn data-test="plus" @click="plus">+</q-btn>
     </q-btn-group>
+    <q-separator />
+    <q-input
+      v-model="color"
+      data-test="color"
+      label="Change the color:"
+      outlined
+      type="text"
+    ></q-input>
   </q-page>
 </template>
