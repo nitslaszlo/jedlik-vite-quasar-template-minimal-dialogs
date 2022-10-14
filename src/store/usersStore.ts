@@ -39,6 +39,24 @@ export const useUsersStore = defineStore({
     },
   },
   actions: {
+    async loginGoogle(atoken: string) {
+      Loading.show();
+      $axios
+        .post("auth/google", { atoken })
+        .then((res) => {
+          this.loggedUser = res.data;
+          Loading.hide();
+          Notify.create({
+            message: `${res.data.name} with ${res.data.email} e-mail is logged in`,
+            color: "positive",
+          });
+        })
+        .catch(() => {
+          this.loggedUser = null;
+          Loading.hide();
+          Notify.create({ message: "Error on Authentication", color: "negative" });
+        });
+    },
     async loginUser(params: IUser): Promise<void> {
       Loading.show();
       $axios
