@@ -5,11 +5,32 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "msedge",
+      "request": "launch",
+      "name": "vuejs: edge",
+      "url": "http://localhost:8080",
+      "webRoot": "${workspaceFolder}",
+      "pauseForSourceMap": false,
+      "sourceMapPathOverrides": {
+          "webpack:///./*": "${webRoot}/*"
+      },
+      "skipFiles": [
+          "${workspaceFolder}/node_modules/**/*"
+      ]
+    },
+    {
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
+      "name": "vuejs: chrome",
       "url": "http://localhost:8080",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}",
+      "pauseForSourceMap": false,
+      "sourceMapPathOverrides": {
+          "webpack:///./*": "${webRoot}/*"
+      },
+      "skipFiles": [
+          "${workspaceFolder}/node_modules/**/*"
+      ]
     }
   ]
-}
+  }

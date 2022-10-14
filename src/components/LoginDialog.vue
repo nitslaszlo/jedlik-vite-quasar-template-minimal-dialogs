@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import { useUsersStore } from "../store/usersStore";
   import LoginHelper from "./LoginHelper";
-  import { computed, reactive } from "vue";
+  import { computed, ref, reactive, onMounted, watch } from "vue";
+  import googleOneTapSignin from "../composables/GoogleOneTapSignin";
 
   interface IProps {
     email?: string;
@@ -92,6 +93,22 @@
       r.check.get("number")?.isOk) as boolean;
   }
   isValidPassword(r.password);
+
+  const googleUserData = ref({
+    name: "",
+    email: "",
+    email_verified: "",
+    picture: "",
+  });
+
+  onMounted(() => {
+    const { googleOptions, oneTapSignin, userData } = googleOneTapSignin();
+    oneTapSignin(googleOptions);
+    watch(userData, () => {
+      console.log(userData.value);
+      googleUserData.value = userData.value;
+    });
+  });
 </script>
 
 <template>

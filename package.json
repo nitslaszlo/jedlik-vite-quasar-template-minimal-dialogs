@@ -21,6 +21,7 @@
     "@vueuse/math": "^9.3.0",
     "@vueuse/shared": "^9.3.0",
     "axios": "^0.27.2",
+    "dotenv": "^10.0.0",
     "pinia": "^2.0.22",
     "quasar": "^2.8.4",
     "tslib": "^2.4.0",

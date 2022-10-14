@@ -12,7 +12,7 @@
   }
 
   const r = reactive<IReactiveData>({
-    showDialog: true,
+    showDialog: false,
   });
 
   function closeLoginDialog() {
