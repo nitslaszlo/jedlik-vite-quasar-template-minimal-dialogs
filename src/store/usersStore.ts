@@ -19,8 +19,10 @@ interface IAddress {
 interface IUser {
   _id?: string;
   email?: string;
+  email_verified?: string;
   name?: string;
   password?: string;
+  picture?: string;
   address?: null | IAddress;
 }
 
@@ -39,10 +41,10 @@ export const useUsersStore = defineStore({
     },
   },
   actions: {
-    async loginGoogle(atoken: string) {
+    async loginRegisterWithGoogle(accessToken: string) {
       Loading.show();
       $axios
-        .post("auth/google", { atoken })
+        .post("auth/google", { atoken: accessToken })
         .then((res) => {
           this.loggedUser = res.data;
           Loading.hide();

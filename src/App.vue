@@ -114,6 +114,11 @@
             Jedlik Vite-Quasar minimal template 2022 -
             {{ usersStore.loggedUser ? usersStore.loggedUser?.name : "You arn't logged in." }}
           </q-toolbar-title>
+          <q-btn v-if="usersStore.loggedUser" round>
+            <q-avatar size="38px">
+              <img :src="usersStore.loggedUser?.picture" />
+            </q-avatar>
+          </q-btn>
           <q-btn flat icon="mdi-theme-light-dark" @click="$q.dark.toggle" />
           <q-btn dense flat icon="mdi-menu" round @click="leftDrawer = !leftDrawer" />
         </q-toolbar>

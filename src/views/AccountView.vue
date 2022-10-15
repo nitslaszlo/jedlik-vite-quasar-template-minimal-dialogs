@@ -2,7 +2,7 @@
   import { computed, reactive } from "vue";
   import { useUsersStore } from "../store/usersStore";
   import LoginDialog from "src/components/LoginDialog.vue";
-  import { googleTokenLogin, CallbackTypes } from "vue3-google-login";
+  import { googleTokenLogin, CallbackTypes, googleLogout } from "vue3-google-login";
 
   const usersStore = useUsersStore();
 
@@ -20,10 +20,15 @@
     r.showDialog = false;
   }
 
-  function loginWithGoogle() {
-    googleTokenLogin().then((response: CallbackTypes.TokenPopupResponse) => {
-      usersStore.loginGoogle(response.access_token);
-    });
+  function loginRegisterGoogle() {
+    if (anyLoggedUser.value) {
+      googleLogout();
+      usersStore.logOut();
+    } else {
+      googleTokenLogin().then((response: CallbackTypes.TokenPopupResponse) => {
+        usersStore.loginRegisterWithGoogle(response.access_token);
+      });
+    }
   }
 </script>
 
@@ -43,9 +48,9 @@
         class="shadow-10"
         color="blue"
         data-test="btnGoogle"
-        label="Login with google"
+        :label="anyLoggedUser ? 'Logout from Google' : 'Login/Register with Google'"
         no-caps
-        @click="loginWithGoogle()"
+        @click="loginRegisterGoogle()"
       />
       <LoginDialog
         email="student001@jedlik.eu"
