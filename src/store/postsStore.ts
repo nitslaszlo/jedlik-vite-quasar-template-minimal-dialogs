@@ -70,7 +70,10 @@ export const usePostsStore = defineStore({
           console.error("hiba: " + error);
           // context.commit("setLoading", false);
           Loading.hide();
-          Notify.create({ message: `Error in create post: ${error.message}`, color: "negative" });
+          Notify.create({
+            message: `Error in create post: ${error.response.data.message}`,
+            color: "negative",
+          });
         });
     },
     async editPostById(params: IEditParams): Promise<void> {
@@ -88,7 +91,10 @@ export const usePostsStore = defineStore({
         })
         .catch((error) => {
           Loading.hide();
-          Notify.create({ message: `Error in edit post: ${error.message}`, color: "negative" });
+          Notify.create({
+            message: `Error in edit post: ${error.response.data.message}`,
+            color: "negative",
+          });
         });
     },
     async deletePostById(params: IIdParams): Promise<void> {
@@ -105,7 +111,10 @@ export const usePostsStore = defineStore({
         })
         .catch((error) => {
           Loading.hide();
-          Notify.create({ message: `Error in delete post: ${error.message}`, color: "negative" });
+          Notify.create({
+            message: `Error in delete post: ${error.response.data.message}`,
+            color: "negative",
+          });
         });
     },
     async fetchPosts(): Promise<void> {
@@ -121,7 +130,10 @@ export const usePostsStore = defineStore({
         })
         .catch((error) => {
           Loading.hide();
-          Notify.create({ message: `Error in fetch posts: ${error.message}`, color: "negative" });
+          Notify.create({
+            message: `Error in fetch posts: ${error.response.data.message}`,
+            color: "negative",
+          });
         });
     },
     async fetchPaginatedPosts(params: IPaginatedParams): Promise<void> {
@@ -141,7 +153,7 @@ export const usePostsStore = defineStore({
           console.error("hiba: " + error);
           Loading.hide();
           Notify.create({
-            message: `Error in paginated fetch posts: ${error.message}`,
+            message: `Error in paginated fetch posts: ${error.response.data.message}`,
             color: "negative",
           });
         });
