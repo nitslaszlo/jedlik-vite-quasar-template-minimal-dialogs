@@ -116,7 +116,7 @@
           </q-toolbar-title>
           <q-btn v-if="usersStore.loggedUser" round>
             <q-avatar size="38px">
-              <img :src="usersStore.loggedUser?.picture" />
+              <q-img referrerpolicy="no-referrer" :src="usersStore.loggedUser?.picture" />
             </q-avatar>
           </q-btn>
           <q-btn flat icon="mdi-theme-light-dark" @click="$q.dark.toggle" />
