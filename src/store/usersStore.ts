@@ -80,6 +80,23 @@ export const useUsersStore = defineStore({
           Notify.create({ message: "Error on Authentication", color: "negative" });
         });
     },
+    async silentlogin(): Promise<void> {
+      Loading.show();
+      $axios
+        .post("auth/silentlogin")
+        .then((res) => {
+          if (res.status == 404) {
+            this.loggedUser = null;
+          } else {
+            this.loggedUser = res.data;
+          }
+          Loading.hide();
+        })
+        .catch(() => {
+          this.loggedUser = null;
+          Loading.hide();
+        });
+    },
     async logOut(withNotify = true): Promise<void> {
       Loading.show();
       $axios

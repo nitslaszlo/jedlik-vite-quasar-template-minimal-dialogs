@@ -2,13 +2,23 @@
   import router from "src/router";
   import { useUsersStore } from "./store/usersStore";
   import { onMounted, ref } from "vue";
+  // import { Cookies } from "quasar";
 
   const leftDrawer = ref<boolean>(true);
   const usersStore = useUsersStore();
 
+  async function browserClose(): Promise<boolean> {
+    // await $q.cookies.remove("Authorization");
+    // await Cookies.remove("Authorization", { path: "/", domain: "jedlik-backend.cyclic.app" });
+    document.cookie = "Authorization=; SameSite=None; Secure; Path=/; Max-age=0";
+    return true;
+  }
+
   onMounted(() => {
     // Delete existing HTTP "Authorization" cookie (with token) if exist on reload (F5, Shift-F5) page:
-    usersStore.logOut(false);
+    // usersStore.logOut(false);
+    usersStore.silentlogin();
+    window.addEventListener("beforeunload", browserClose);
   });
 
   const menuItems = ref([
@@ -121,7 +131,10 @@
           </q-toolbar-title>
           <q-btn v-if="usersStore.loggedUser" round>
             <q-avatar size="38px">
-              <q-img referrerpolicy="no-referrer" :src="usersStore.loggedUser?.picture" />
+              <q-img
+                referrerpolicy="no-referrer"
+                :src="(usersStore.loggedUser.picture as string)"
+              />
             </q-avatar>
           </q-btn>
           <q-btn flat icon="mdi-theme-light-dark" @click="$q.dark.toggle" />

@@ -93,76 +93,87 @@
   }
 
   isValidPassword(r.password);
+
+  function dialogShow() {
+    if (usersStore.loggedUser) {
+      r.email = usersStore.loggedUser.email as string;
+    } else {
+      r.email = props.email;
+    }
+  }
 </script>
 
 <template>
-  <q-dialog v-model="$props.showDialog" persistent transition-show="rotate">
+  <q-dialog v-model="$props.showDialog" persistent transition-show="rotate" @show="dialogShow()">
     <q-card class="q-pa-xs" style="width: 100%">
-      <div class="row flex-center">
-        <div class="col-xs-12 col-sm-6">
-          <q-card-section>
-            <q-input
-              v-model="r.email"
-              data-test="QInputEmail"
-              :disable="anyLoggedUser"
-              filled
-              label="E-mail address"
-              :rules="[(v) => (v != null && v != '') || 'Please fill in!', isValidEmail]"
-              type="text"
-            />
-          </q-card-section>
-
-          <q-card-section v-if="!anyLoggedUser">
-            <q-input
-              v-model="r.password"
-              data-test="QInputPassword"
-              filled
-              label="Password"
-              :rules="[isValidPassword]"
-              type="password"
-            />
-          </q-card-section>
-        </div>
-        <div class="col-xs-12 col-sm-6">
-          <q-card-section v-if="!anyLoggedUser" class="no-padding">
-            <div class="column">
-              <q-checkbox
-                v-for="e in r.check.entries()"
-                :key="e[0]"
-                v-model="e[1].isOk"
-                checked-icon="star"
-                :class="e[1].isOk ? 'text-green' : 'text-red'"
-                :color="e[1].isOk ? 'green' : 'red'"
-                :data-test="e[1].test"
-                disable
-                keep-color
-                :label="e[1].label"
-                unchecked-icon="star_border"
+      <q-form>
+        <div class="row flex-center">
+          <div class="col-xs-12 col-sm-6">
+            <q-card-section>
+              <q-input
+                v-model="r.email"
+                data-test="QInputEmail"
+                :disable="anyLoggedUser"
+                filled
+                label="E-mail address"
+                :rules="[(v) => (v != null && v != '') || 'Please fill in!', isValidEmail]"
+                type="text"
               />
-            </div>
-          </q-card-section>
-        </div>
-      </div>
+            </q-card-section>
 
-      <q-card-actions align="center" class="text-primary">
-        <q-btn
-          class="q-mr-md"
-          color="green"
-          data-test="btnLoginLogout"
-          :label="anyLoggedUser ? 'Logout' : 'Login'"
-          no-caps
-          type="button"
-          @click="LogInOut()"
-        />
-        <q-btn
-          color="red"
-          data-test="btnClose"
-          label="Close dialog"
-          no-caps
-          type="button"
-          @click="emit('close-login-dialog')"
-        />
-      </q-card-actions>
+            <q-card-section v-if="!anyLoggedUser">
+              <q-input
+                v-model="r.password"
+                autocomplete="on"
+                data-test="QInputPassword"
+                filled
+                label="Password"
+                :rules="[isValidPassword]"
+                type="password"
+              />
+            </q-card-section>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <q-card-section v-if="!anyLoggedUser" class="no-padding">
+              <div class="column">
+                <q-checkbox
+                  v-for="e in r.check.entries()"
+                  :key="e[0]"
+                  v-model="e[1].isOk"
+                  checked-icon="star"
+                  :class="e[1].isOk ? 'text-green' : 'text-red'"
+                  :color="e[1].isOk ? 'green' : 'red'"
+                  :data-test="e[1].test"
+                  disable
+                  keep-color
+                  :label="e[1].label"
+                  unchecked-icon="star_border"
+                />
+              </div>
+            </q-card-section>
+          </div>
+        </div>
+
+        <q-card-actions align="center" class="text-primary">
+          <q-btn
+            class="q-mr-md"
+            color="green"
+            data-test="btnLoginLogout"
+            :label="anyLoggedUser ? 'Logout' : 'Login'"
+            no-caps
+            type="button"
+            @click="LogInOut()"
+          />
+          <q-btn
+            color="red"
+            data-test="btnClose"
+            label="Close dialog"
+            no-caps
+            type="button"
+            @click="emit('close-login-dialog')"
+          />
+        </q-card-actions>
+      </q-form>
     </q-card>
   </q-dialog>
 </template>
