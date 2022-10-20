@@ -7,18 +7,24 @@
   const leftDrawer = ref<boolean>(true);
   const usersStore = useUsersStore();
 
-  async function browserClose(): Promise<boolean> {
+  function browserClose(): boolean {
+    usersStore.logOut();
     // await $q.cookies.remove("Authorization");
     // await Cookies.remove("Authorization", { path: "/", domain: "jedlik-backend.cyclic.app" });
-    document.cookie = "Authorization=; SameSite=None; Secure; Path=/; Max-age=0";
-    return true;
+    // document.cookie = "Authorization=; SameSite=None; Secure; Path=/; Max-age=0";
+    // Cookies.set("Authorization", "Authorization=; SameSite=None; Secure; Path=/; Max-age=0", {
+    //   expires: Date.now(),
+    //   domain: "jedlik-backend.cyclic.app",
+    //   path: "/",
+    // });
+    return false;
   }
 
   onMounted(() => {
     // Delete existing HTTP "Authorization" cookie (with token) if exist on reload (F5, Shift-F5) page:
     // usersStore.logOut(false);
-    usersStore.silentlogin();
-    window.addEventListener("beforeunload", browserClose);
+    // usersStore.silentlogin();
+    window.addEventListener("beforeunload", browserClose, { capture: true });
   });
 
   const menuItems = ref([
