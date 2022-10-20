@@ -67,7 +67,7 @@ export const usePostsStore = defineStore({
           Loading.hide();
         })
         .catch((error) => {
-          console.error("hiba: " + error);
+          // console.error("hiba: " + error);
           // context.commit("setLoading", false);
           Loading.hide();
           Notify.create({
@@ -150,7 +150,7 @@ export const usePostsStore = defineStore({
           Loading.hide();
         })
         .catch((error) => {
-          console.error("hiba: " + error);
+          // console.error("hiba: " + error);
           Loading.hide();
           Notify.create({
             message: `Error in paginated fetch posts: ${error.response.data.message}`,

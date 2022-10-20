@@ -80,17 +80,19 @@ export const useUsersStore = defineStore({
           Notify.create({ message: "Error on Authentication", color: "negative" });
         });
     },
-    async logOut(): Promise<void> {
+    async logOut(withNotify = true): Promise<void> {
       Loading.show();
       $axios
         .post("auth/logout")
         .then(() => {
           this.loggedUser = null;
           Loading.hide();
-          Notify.create({
-            message: "Successful logout",
-            color: "positive",
-          });
+          if (withNotify) {
+            Notify.create({
+              message: "Successful logout",
+              color: "positive",
+            });
+          }
         })
         .catch(() => {
           this.loggedUser = null;

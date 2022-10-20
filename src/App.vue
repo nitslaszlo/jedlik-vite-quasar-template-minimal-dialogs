@@ -1,10 +1,15 @@
 <script setup lang="ts">
   import router from "src/router";
   import { useUsersStore } from "./store/usersStore";
-  import { ref } from "vue";
+  import { onMounted, ref } from "vue";
 
   const leftDrawer = ref<boolean>(true);
   const usersStore = useUsersStore();
+
+  onMounted(() => {
+    // Delete existing HTTP "Authorization" cookie (with token) if exist on reload (F5, Shift-F5) page:
+    usersStore.logOut(false);
+  });
 
   const menuItems = ref([
     {
