@@ -29,7 +29,6 @@ interface IUser {
 interface IState {
   loggedUser: null | IUser;
 }
-
 export const useUsersStore = defineStore({
   id: "usersStore",
   state: (): IState => ({
@@ -80,10 +79,10 @@ export const useUsersStore = defineStore({
           Notify.create({ message: "Error on Authentication", color: "negative" });
         });
     },
-    async silentlogin(): Promise<void> {
+    async autoLogin(): Promise<void> {
       Loading.show();
       $axios
-        .post("auth/silentlogin")
+        .post("auth/autologin")
         .then((res) => {
           if (res.status == 404) {
             this.loggedUser = null;
@@ -92,9 +91,13 @@ export const useUsersStore = defineStore({
           }
           Loading.hide();
         })
-        .catch(() => {
+        .catch((error) => {
           this.loggedUser = null;
           Loading.hide();
+          Notify.create({
+            message: `Auto login not aviable! ${error.response.data.message}`,
+            color: "negative",
+          });
         });
     },
     async logOut(withNotify = true): Promise<void> {
