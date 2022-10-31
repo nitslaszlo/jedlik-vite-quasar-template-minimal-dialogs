@@ -1,6 +1,7 @@
 import $axios from "./axios.instance";
 import { defineStore } from "pinia";
 import { Notify, Loading } from "quasar";
+import { usePostsStore } from "./postsStore";
 
 Notify.setDefaults({
   position: "bottom",
@@ -29,6 +30,9 @@ interface IUser {
 interface IState {
   loggedUser: null | IUser;
 }
+
+const postsStore = usePostsStore();
+
 export const useUsersStore = defineStore({
   id: "usersStore",
   state: (): IState => ({
@@ -106,6 +110,7 @@ export const useUsersStore = defineStore({
         .post("auth/logout")
         .then(() => {
           this.loggedUser = null;
+          postsStore.posts = [];
           Loading.hide();
           if (withNotify) {
             Notify.create({
@@ -116,6 +121,7 @@ export const useUsersStore = defineStore({
         })
         .catch(() => {
           this.loggedUser = null;
+          postsStore.posts = [];
           Loading.hide();
           Notify.create({ message: "Error on log out", color: "negative" });
         });

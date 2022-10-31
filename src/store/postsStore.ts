@@ -1,4 +1,3 @@
-import { useUsersStore } from "./usersStore";
 import $axios from "./axios.instance";
 import { defineStore } from "pinia";
 import { Notify, Loading } from "quasar";
@@ -154,9 +153,6 @@ export const usePostsStore = defineStore({
           // console.error("hiba: " + error);
           Loading.hide();
           const status = error.response.data.status;
-          // if (status && status == 401) {
-          //   useUsersStore().loggedUser = null;
-          // }
           Notify.create({
             message: `${error.response.data.message} (${status})`,
             color: "negative",
