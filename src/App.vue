@@ -17,7 +17,9 @@
   window.addEventListener(
     "beforeunload",
     () => {
-      usersStore.logOut(true);
+      if (usersStore.loggedUser && !usersStore.loggedUser.auto_login) {
+        usersStore.logOut(true);
+      }
     },
     false
   );

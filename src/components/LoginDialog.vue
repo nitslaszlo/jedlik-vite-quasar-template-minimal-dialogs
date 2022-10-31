@@ -2,6 +2,7 @@
   import { useUsersStore } from "../store/usersStore";
   import LoginHelper from "./LoginHelper";
   import { computed, reactive } from "vue";
+  import { usePostsStore } from "../store/postsStore";
 
   interface IProps {
     email?: string;
@@ -20,6 +21,7 @@
   }>();
 
   const usersStore = useUsersStore();
+  const postsStore = usePostsStore();
 
   const anyLoggedUser = computed(() => (usersStore.getLoggedUser ? true : false));
 
@@ -49,6 +51,7 @@
       });
     } else {
       usersStore.logOut();
+      postsStore.posts = [];
     }
   }
 

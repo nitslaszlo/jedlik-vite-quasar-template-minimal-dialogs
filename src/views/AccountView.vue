@@ -3,8 +3,10 @@
   import { useUsersStore } from "../store/usersStore";
   import LoginDialog from "src/components/LoginDialog.vue";
   import { googleTokenLogin, CallbackTypes, googleLogout } from "vue3-google-login";
+  import { usePostsStore } from "../store/postsStore";
 
   const usersStore = useUsersStore();
+  const postsStore = usePostsStore();
 
   const anyLoggedUser = computed(() => (usersStore.getLoggedUser ? true : false));
 
@@ -24,6 +26,7 @@
     if (anyLoggedUser.value) {
       googleLogout();
       usersStore.logOut();
+      postsStore.posts = [];
     } else {
       googleTokenLogin().then((response: CallbackTypes.TokenPopupResponse) => {
         usersStore.loginRegisterWithGoogle(response.access_token);

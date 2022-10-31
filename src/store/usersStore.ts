@@ -1,7 +1,6 @@
 import $axios from "./axios.instance";
 import { defineStore } from "pinia";
 import { Notify, Loading } from "quasar";
-import { usePostsStore } from "./postsStore";
 
 Notify.setDefaults({
   position: "bottom",
@@ -21,6 +20,7 @@ interface IUser {
   _id?: string;
   email?: string;
   email_verified?: string;
+  auto_login?: boolean;
   name?: string;
   password?: string;
   picture?: string;
@@ -30,8 +30,6 @@ interface IUser {
 interface IState {
   loggedUser: null | IUser;
 }
-
-const postsStore = usePostsStore();
 
 export const useUsersStore = defineStore({
   id: "usersStore",
@@ -98,10 +96,11 @@ export const useUsersStore = defineStore({
         .catch((error) => {
           this.loggedUser = null;
           Loading.hide();
-          Notify.create({
-            message: `Auto login not aviable! ${error.response.data.message}`,
-            color: "negative",
-          });
+          console.log(error.response.data.message);
+          // Notify.create({
+          //   message: `Auto login not aviable! ${error.response.data.message}`,
+          //   color: "negative",
+          // });
         });
     },
     async logOut(withNotify = true): Promise<void> {
@@ -110,7 +109,6 @@ export const useUsersStore = defineStore({
         .post("auth/logout")
         .then(() => {
           this.loggedUser = null;
-          postsStore.posts = [];
           Loading.hide();
           if (withNotify) {
             Notify.create({
@@ -121,7 +119,6 @@ export const useUsersStore = defineStore({
         })
         .catch(() => {
           this.loggedUser = null;
-          postsStore.posts = [];
           Loading.hide();
           Notify.create({ message: "Error on log out", color: "negative" });
         });
