@@ -154,9 +154,9 @@ export const usePostsStore = defineStore({
           // console.error("hiba: " + error);
           Loading.hide();
           const status = error.response.data.status;
-          if (status && status == 401) {
-            useUsersStore().loggedUser = null;
-          }
+          // if (status && status == 401) {
+          //   useUsersStore().loggedUser = null;
+          // }
           Notify.create({
             message: `${error.response.data.message} (${status})`,
             color: "negative",
