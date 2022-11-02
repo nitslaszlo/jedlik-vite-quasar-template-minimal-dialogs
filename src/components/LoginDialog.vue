@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import { useUsersStore } from "../store/usersStore";
-  import LoginHelper from "./LoginHelper";
   import { computed, reactive } from "vue";
   import { usePostsStore } from "../store/postsStore";
+  import LoginHelper from "./LoginHelper";
+  import ValidPassword from "./ValidPassword.vue";
 
   interface IProps {
     email?: string;
@@ -25,23 +26,21 @@
 
   const anyLoggedUser = computed(() => (usersStore.getLoggedUser ? true : false));
 
-  interface IMapData {
-    isOk: boolean;
-    label: string;
-    test: string;
-  }
-
   interface IReactiveData {
     email: string;
     password: string;
-    check: Map<string, IMapData>;
+    password_ok: string | boolean;
   }
 
   const r = reactive<IReactiveData>({
     email: props.email,
     password: props.password,
-    check: new Map(),
+    password_ok: true,
   });
+
+  function isValidEmail(email: string): boolean | string {
+    return LoginHelper.IsValidEmail(email);
+  }
 
   function LogInOut() {
     if (!anyLoggedUser.value) {
@@ -55,54 +54,16 @@
     }
   }
 
-  function isValidEmail(email: string): boolean | string {
-    return LoginHelper.IsValidEmail(email);
-  }
-
-  // defineExpose({ isValidEmail });
-
-  function isValidPassword(pass: string): boolean | string {
-    r.check.set("length", {
-      isOk: LoginHelper.IsLengthOk(pass),
-      label: "Length >= 8",
-      test: "QCheckBoxLength",
-    });
-    r.check.set("upper", {
-      isOk: LoginHelper.IsAnyUppercaseChar(pass),
-      label: "Uppercase char(s)",
-      test: "QCheckBoxUpper",
-    });
-    r.check.set("lower", {
-      isOk: LoginHelper.IsAnyLowercaseChar(pass),
-      label: "Lowercase char(s)",
-      test: "QCheckBoxLower",
-    });
-    r.check.set("special", {
-      isOk: LoginHelper.IsAnySpecialChar(pass),
-      label: "Special char(s)",
-      test: "QCheckBoxSpecial",
-    });
-    r.check.set("number", {
-      isOk: LoginHelper.IsAnyNumber(pass),
-      label: "Number(s)",
-      test: "QCheckBoxNumber",
-    });
-    if (pass.length == 0) return "Please fill in!";
-    return (r.check.get("length")?.isOk &&
-      r.check.get("upper")?.isOk &&
-      r.check.get("lower")?.isOk &&
-      r.check.get("special")?.isOk &&
-      r.check.get("number")?.isOk) as boolean;
-  }
-
-  isValidPassword(r.password);
-
   function dialogShow() {
     if (usersStore.loggedUser) {
       r.email = usersStore.loggedUser.email as string;
     } else {
       r.email = props.email;
     }
+  }
+
+  function isValidPassword(result: string | boolean): void {
+    r.password_ok = result;
   }
 </script>
 
@@ -131,7 +92,7 @@
                 data-test="QInputPassword"
                 filled
                 label="Password"
-                :rules="[isValidPassword]"
+                :rules="[() => r.password_ok]"
                 type="password"
               />
             </q-card-section>
@@ -139,19 +100,7 @@
           <div class="col-xs-12 col-sm-6">
             <q-card-section v-if="!anyLoggedUser" class="no-padding">
               <div class="column">
-                <q-checkbox
-                  v-for="e in r.check.entries()"
-                  :key="e[0]"
-                  v-model="e[1].isOk"
-                  checked-icon="star"
-                  :class="e[1].isOk ? 'text-green' : 'text-red'"
-                  :color="e[1].isOk ? 'green' : 'red'"
-                  :data-test="e[1].test"
-                  disable
-                  keep-color
-                  :label="e[1].label"
-                  unchecked-icon="star_border"
-                />
+                <ValidPassword :password="r.password" @password_changed="isValidPassword" />
               </div>
             </q-card-section>
           </div>
