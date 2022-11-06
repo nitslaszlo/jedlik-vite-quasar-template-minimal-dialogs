@@ -75,7 +75,6 @@
           <div class="col-xs-12 col-sm-6">
             <q-card-section>
               <q-input
-                id="QInputEmail"
                 v-model="r.email"
                 data-test="QInputEmail"
                 :disable="anyLoggedUser"
@@ -88,7 +87,6 @@
 
             <q-card-section v-if="!anyLoggedUser">
               <q-input
-                id="qinputPassword"
                 v-model="r.password"
                 autocomplete="on"
                 data-test="QInputPassword"
@@ -112,7 +110,7 @@
           <q-btn
             class="q-mr-md"
             color="green"
-            data-test="btnLoginLogout"
+            data-test="btnLoginLogoutDialog"
             :label="anyLoggedUser ? 'Logout' : 'Login'"
             no-caps
             type="button"
@@ -120,7 +118,7 @@
           />
           <q-btn
             color="red"
-            data-test="btnClose"
+            data-test="btnCloseDialog"
             label="Close dialog"
             no-caps
             type="button"
