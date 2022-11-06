@@ -40,6 +40,7 @@
     <div class="row window-height flex-center justify-evenly">
       <q-btn
         v-if="!r.showDialog"
+        id="btnLoginSimple"
         class="shadow-10"
         color="info"
         data-test="btnShow"

@@ -75,6 +75,7 @@
           <div class="col-xs-12 col-sm-6">
             <q-card-section>
               <q-input
+                id="QInputEmail"
                 v-model="r.email"
                 data-test="QInputEmail"
                 :disable="anyLoggedUser"
@@ -87,6 +88,7 @@
 
             <q-card-section v-if="!anyLoggedUser">
               <q-input
+                id="qinputPassword"
                 v-model="r.password"
                 autocomplete="on"
                 data-test="QInputPassword"

@@ -1,14 +1,15 @@
 context("Basic", () => {
   beforeEach(() => {
-    cy.visit("/");
+    cy.visit("/account");
   });
 
   it("basic nav", () => {
-    cy.url().should("eq", "http://127.0.0.1:8080/");
+    cy.url().should("eq", "http://localhost:8080/account");
 
-    cy.contains("Jedlik Vite-Quasar").should("exist");
+    cy.contains("Show").should("exist");
+    cy.get("#btnLoginSimple").click();
 
-    // cy.get("#input").type("Vitesse{Enter}").url().should("eq", "http://localhost:3333/hi/Vitesse");
+    cy.get("QInputEmail").type("student000001@jedlik.eu{Enter}");
 
     // cy.contains("[Default Layout]").should("exist");
 
