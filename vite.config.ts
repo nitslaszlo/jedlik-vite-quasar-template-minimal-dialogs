@@ -5,6 +5,7 @@ import { resolve } from "path";
 import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
 import dns from "dns";
 import vue from "@vitejs/plugin-vue";
+import vueI18n from "@intlify/vite-plugin-vue-i18n";
 
 dns.setDefaultResultOrder("verbatim");
 
@@ -12,6 +13,13 @@ export default defineConfig({
   plugins: [
     vue({ template: { transformAssetUrls } }),
     quasar({ sassVariables: "src/assets/quasar-variables.sass" }),
+    vueI18n({
+      // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
+      // compositionOnly: false,
+
+      // you need to set i18n resource including paths!
+      include: resolve(__dirname, "src/locales/**"),
+    }),
   ],
   resolve: {
     alias: {

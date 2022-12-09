@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { useI18n } from "vue-i18n";
   import router from "src/router";
   import { useUsersStore } from "./store/usersStore";
   import { onMounted, ref } from "vue";
@@ -6,6 +7,11 @@
 
   const leftDrawer = ref<boolean>(true);
   const usersStore = useUsersStore();
+
+  let { locale, t } = useI18n({
+    inheritLocale: true,
+    useScope: "global", // Change to "local" if you want to add <i18n></i18n> locally
+  });
 
   onMounted(() => {
     // Delete existing HTTP "Authorization" cookie (with token) if exist on reload (F5, Shift-F5) page:
@@ -27,7 +33,7 @@
   const menuItems = ref([
     {
       icon: "mdi-home",
-      text: "startPage",
+      text: t("startPage"),
       name: "startPage",
       route: "/",
       disabled: false,
@@ -35,7 +41,7 @@
     },
     {
       icon: "mdi-soccer",
-      text: "examples",
+      text: t("examples"),
       name: "examples",
       route: "/examples",
       disabled: false,
@@ -43,7 +49,7 @@
     },
     {
       icon: "mdi-grid",
-      text: "gridDemo",
+      text: t("gridDemo"),
       name: "gridDemo",
       route: "/grid",
       disabled: false,
@@ -51,7 +57,7 @@
     },
     {
       icon: "mdi-account",
-      text: "account",
+      text: t("account"),
       name: "account",
       route: "/account",
       disabled: false,
@@ -59,7 +65,7 @@
     },
     {
       icon: "mdi-information",
-      text: "about",
+      text: t("about"),
       name: "about",
       route: "/about",
       disabled: false,
@@ -117,6 +123,13 @@
       separator: false,
     },
   ]);
+
+  function toggleLanguage() {
+    locale.value = locale.value == "hu" ? "en" : "hu";
+    menuItems.value.forEach((e) => {
+      if (e.name != "") e.text = t(e.name);
+    });
+  }
 </script>
 
 <template>
@@ -129,16 +142,16 @@
             <q-avatar>
               <img src="./assets/Jedlik_small.png" />
             </q-avatar>
-            Jedlik Vite-Quasar minimal template 2022 -
-            {{ usersStore.loggedUser ? usersStore.loggedUser?.name : "You arn't logged in." }}
+            Jedlik Vite-Quasar minimal {{ $t("template") }} 2022 -
+            {{ usersStore.loggedUser ? usersStore.loggedUser?.name : $t("arentLoggedIn") }}
           </q-toolbar-title>
           <q-btn v-if="usersStore.loggedUser" round>
             <q-avatar size="38px">
-              <q-img
-                referrerpolicy="no-referrer"
-                :src="(usersStore.loggedUser.picture as string)"
-              />
+              <q-img referrerpolicy="no-referrer" :src="(usersStore.loggedUser.picture as string)" />
             </q-avatar>
+          </q-btn>
+          <q-btn flat icon="mdi-comment-text-multiple" @click="toggleLanguage">
+            <q-badge color="red" floating>{{ locale }}</q-badge>
           </q-btn>
           <q-btn flat icon="mdi-theme-light-dark" @click="$q.dark.toggle" />
           <q-btn dense flat icon="mdi-menu" round @click="leftDrawer = !leftDrawer" />

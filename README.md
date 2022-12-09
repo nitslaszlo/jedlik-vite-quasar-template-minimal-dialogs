@@ -58,6 +58,9 @@ With [Quasar](https://quasar.dev/) you can build effortlessly build high-perform
 
 [Vite](https://vitejs.dev/) is a build tool that aims to provide a faster and leaner development experience for modern web projects. It consists a dev server that provides rich feature enhancements over native ES modules, for example extremely fast Hot Module Replacement (HMR).
 
+## vue-i18n
+[vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/vue-i18n#readme) Internationalization plugin for Vue.js
+
 ## ESlint
 
 [ESLint](https://eslint.org/) statically analyzes your code to quickly find problems. Many problems ESLint finds can be automatically fixed. Preprocess code, use custom parsers, and write your own rules that work alongside ESLint's built-in rules. You can customize ESLint to work exactly the way you need it for your project.

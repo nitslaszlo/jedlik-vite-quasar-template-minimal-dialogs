@@ -6,7 +6,7 @@ module.exports = {
   useTabs: false,
   singleQuote: false,
   trailingComma: "es5",
-  printWidth: 100,
+  printWidth: 120,
   endOfLine: "auto",
   arrowParens: "always",
   vueIndentScriptAndStyle: true,
