@@ -23,8 +23,8 @@
   window.addEventListener(
     "beforeunload",
     () => {
-      if (usersStore.loggedUser && !usersStore.loggedUser.auto_login) {
-        usersStore.logOut(true);
+      if (usersStore.loggedUser) {
+        usersStore.closeApp();
       }
     },
     false
@@ -135,15 +135,14 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="hHh Lpr fFf">
-      <q-header class="bg-primary text-white text-left" elevated>
+      <q-header class="bg-primary text-white text-left" elevated reveal>
         <q-toolbar>
           <q-btn dense flat icon="mdi-menu" round @click="leftDrawer = !leftDrawer" />
-          <q-toolbar-title id="title" style="cursor: pointer" @click="router.push({ path: '/' })">
+          <q-toolbar-title class="my-title" style="cursor: pointer" @click="router.push({ path: '/' })">
             <q-avatar>
               <img src="./assets/Jedlik_small.png" />
             </q-avatar>
-            Jedlik Vite-Quasar minimal {{ $t("template") }} 2022 -
-            {{ usersStore.loggedUser ? usersStore.loggedUser?.name : $t("arentLoggedIn") }}
+            Jedlik
           </q-toolbar-title>
           <q-btn v-if="usersStore.loggedUser" round>
             <q-avatar size="38px">
@@ -205,6 +204,15 @@
         </q-scroll-area>
       </q-drawer>
 
+      <q-footer elevated reveal>
+        <q-toolbar>
+          <q-toolbar-title class="text-center my-title">
+            Vite-Quasar minimal {{ $t("template") }} 2022 -
+            {{ usersStore.loggedUser ? usersStore.loggedUser?.name : $t("arentLoggedIn") }}
+          </q-toolbar-title>
+        </q-toolbar>
+      </q-footer>
+
       <q-page-container id="container">
         <router-view v-slot="{ Component }">
           <transition name="fade">
@@ -227,7 +235,7 @@
     opacity: 0;
   }
 
-  #title {
+  .my-title {
     font-size: 10px;
     @media (min-width: 400px) {
       font-size: calc(10px + 0.5vw);

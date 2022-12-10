@@ -1,9 +1,11 @@
 <script setup lang="ts">
-  import { useUsersStore } from "../store/usersStore";
-  import { computed, reactive } from "vue";
+  import { computed, reactive, watchEffect } from "vue";
   import { usePostsStore } from "../store/postsStore";
+  import { useUsersStore } from "../store/usersStore";
+  import { useAppStore } from "../store/appStore";
   import LoginHelper from "./LoginHelper";
   import ValidPassword from "./ValidPassword.vue";
+  import { googleTokenLogin, CallbackTypes } from "vue3-google-login";
 
   interface IProps {
     email?: string;
@@ -13,16 +15,11 @@
   const props = withDefaults(defineProps<IProps>(), {
     email: "student001@jedlik.eu", // set value of optional prop
     password: "student001",
-    showDialog: true,
   });
-
-  const emit = defineEmits<{
-    // eslint-disable-next-line no-unused-vars
-    (e: "close-login-dialog"): void;
-  }>();
 
   const usersStore = useUsersStore();
   const postsStore = usePostsStore();
+  const appStore = useAppStore();
 
   const anyLoggedUser = computed(() => (usersStore.getLoggedUser ? true : false));
 
@@ -37,6 +34,8 @@
     password: props.password,
     password_ok: true,
   });
+
+  watchEffect(() => (r.email = usersStore.loggedUser ? (usersStore.loggedUser.email as string) : props.email));
 
   function isValidEmail(email: string): boolean | string {
     return LoginHelper.IsValidEmail(email);
@@ -64,6 +63,12 @@
 
   function isValidPassword(result: string | boolean): void {
     r.password_ok = result;
+  }
+
+  function loginRegisterGoogle() {
+    googleTokenLogin().then((response: CallbackTypes.TokenPopupResponse) => {
+      usersStore.loginRegisterWithGoogle(response.access_token);
+    });
   }
 </script>
 
@@ -108,7 +113,7 @@
 
         <q-card-actions align="center" class="text-primary">
           <q-btn
-            class="q-mr-md"
+            class="shadow-10 q-mr-md"
             color="green"
             data-test="btnLoginLogoutDialog"
             :label="anyLoggedUser ? 'Logout' : 'Login'"
@@ -117,12 +122,22 @@
             @click="LogInOut()"
           />
           <q-btn
+            class="shadow-10 q-mr-md"
             color="red"
             data-test="btnCloseDialog"
             label="Close dialog"
             no-caps
             type="button"
-            @click="emit('close-login-dialog')"
+            @click="appStore.showLoginDialog = false"
+          />
+          <q-btn
+            v-if="!anyLoggedUser"
+            class="shadow-10"
+            color="blue"
+            data-test="btnGoogle"
+            label="Login/Register with Google"
+            no-caps
+            @click="loginRegisterGoogle()"
           />
         </q-card-actions>
       </q-form>

@@ -123,5 +123,10 @@ export const useUsersStore = defineStore({
           Notify.create({ message: "Error on log out", color: "negative" });
         });
     },
+    async closeApp(): Promise<void> {
+      $axios.post("auth/closeapp").then(() => {
+        this.loggedUser = null;
+      });
+    },
   },
 });
