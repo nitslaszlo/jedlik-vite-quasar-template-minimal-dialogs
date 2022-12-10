@@ -27,12 +27,14 @@
     email: string;
     password: string;
     password_ok: string | boolean;
+    isPwd: boolean;
   }
 
   const r = reactive<IReactiveData>({
     email: props.email,
     password: props.password,
     password_ok: true,
+    isPwd: false,
   });
 
   watchEffect(() => (r.email = usersStore.loggedUser ? (usersStore.loggedUser.email as string) : props.email));
@@ -98,8 +100,16 @@
                 filled
                 label="Password"
                 :rules="[() => r.password_ok]"
-                type="password"
-              />
+                :type="r.isPwd ? 'password' : 'text'"
+              >
+                <template #append>
+                  <q-icon
+                    class="cursor-pointer"
+                    :name="r.isPwd ? 'visibility_off' : 'visibility'"
+                    @click="r.isPwd = !r.isPwd"
+                  />
+                </template>
+              </q-input>
             </q-card-section>
           </div>
           <div class="col-xs-12 col-sm-6">
