@@ -45,42 +45,17 @@
         label="Checkbox"
         target="_blank"
       />
-      <q-btn
-        href="https://quasar.dev/vue-components/img"
-        icon="mdi-camera-image"
-        label="Img"
-        target="_blank"
-      />
-      <q-btn
-        href="https://quasar.dev/vue-components/input"
-        icon="mdi-import"
-        label="Input"
-        target="_blank"
-      />
-      <q-btn
-        href="https://quasar.dev/vue-components/radio"
-        icon="mdi-radiobox-marked"
-        label="Radio"
-        target="_blank"
-      />
-      <q-btn
-        href="https://quasar.dev/vue-components/select"
-        icon="mdi-form-dropdown"
-        label="Select"
-        target="_blank"
-      />
+      <q-btn href="https://quasar.dev/vue-components/img" icon="mdi-camera-image" label="Img" target="_blank" />
+      <q-btn href="https://quasar.dev/vue-components/input" icon="mdi-import" label="Input" target="_blank" />
+      <q-btn href="https://quasar.dev/vue-components/radio" icon="mdi-radiobox-marked" label="Radio" target="_blank" />
+      <q-btn href="https://quasar.dev/vue-components/select" icon="mdi-form-dropdown" label="Select" target="_blank" />
       <q-btn
         href="https://quasar.dev/style/"
         icon="mdi-palette-swatch-variant"
         label="Style & Identity"
         target="_blank"
       />
-      <q-btn
-        href="https://quasar.dev/vue-components/table"
-        icon="mdi-table-large"
-        label="Table"
-        target="_blank"
-      />
+      <q-btn href="https://quasar.dev/vue-components/table" icon="mdi-table-large" label="Table" target="_blank" />
       <q-btn
         href="https://fonts.google.com/icons"
         icon="mdi-material-design"

@@ -58,16 +58,7 @@
   }
 
   function napEllenorzese(): boolean {
-    const joNapok: string[] = [
-      "",
-      "hétfő",
-      "kedd",
-      "szerda",
-      "csütörtök",
-      "péntek",
-      "szombat",
-      "vasárnap",
-    ];
+    const joNapok: string[] = ["", "hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat", "vasárnap"];
     return joNapok.includes(iNap.value);
   }
 

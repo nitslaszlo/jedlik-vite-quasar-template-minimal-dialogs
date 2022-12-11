@@ -11,6 +11,17 @@
   "gridDemo": "Rács demó",
   "links": "Hivatkozások",
   "actualBreakpoint": "Aktuális töréspont",
-  "arentLoggedIn": "Nincs bejelentkezve."
+  "arentLoggedIn": "Nincs bejelentkezve.",
+  "clearSelection": "Kijelölés megszüntetése",
+  "clearSelections": "Kijelölések megszüntetése",
+  "posts": "Cikkek",
+  "newPost": "Új cikk",
+  "deletePost": "Cikk törlése",
+  "deletePosts": "Cikkek törlése",
+  "editPost": "Cikk szerkesztése",
+  "search": "Keresés",
+  "rowsPerPageLabel": "Sorok/oldal",
+  "title": "Cím",
+  "content": "Tartalom"
 }
 

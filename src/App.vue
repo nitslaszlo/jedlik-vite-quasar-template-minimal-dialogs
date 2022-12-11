@@ -8,14 +8,9 @@
   const leftDrawer = ref<boolean>(true);
   const usersStore = useUsersStore();
 
-  let { locale, t } = useI18n({
-    inheritLocale: true,
-    useScope: "global", // Change to "local" if you want to add <i18n></i18n> locally
-  });
+  let { locale, t } = useI18n();
 
   onMounted(() => {
-    // Delete existing HTTP "Authorization" cookie (with token) if exist on reload (F5, Shift-F5) page:
-    // usersStore.logOut(false);
     usersStore.autoLogin();
   });
 
@@ -30,56 +25,58 @@
     false
   );
 
-  const menuItems = ref([
-    {
-      icon: "mdi-home",
-      text: t("startPage"),
-      name: "startPage",
-      route: "/",
-      disabled: false,
-      separator: false,
-    },
-    {
-      icon: "mdi-soccer",
-      text: t("examples"),
-      name: "examples",
-      route: "/examples",
-      disabled: false,
-      separator: false,
-    },
-    {
-      icon: "mdi-grid",
-      text: t("gridDemo"),
-      name: "gridDemo",
-      route: "/grid",
-      disabled: false,
-      separator: false,
-    },
-    {
-      icon: "mdi-account",
-      text: t("account"),
-      name: "account",
-      route: "/account",
-      disabled: false,
-      separator: false,
-    },
-    {
-      icon: "mdi-information",
-      text: t("about"),
-      name: "about",
-      route: "/about",
-      disabled: false,
-      separator: false,
-    },
-    {
-      icon: "mdi-lifebuoy",
-      text: "q-help",
-      name: "qhelp",
-      route: "/qhelp",
-      disabled: false,
-      separator: true,
-    },
-  ]);
+  function menuItems() {
+    return [
+      {
+        icon: "mdi-home",
+        text: t("startPage"),
+        name: "startPage",
+        route: "/",
+        disabled: false,
+        separator: false,
+      },
+      {
+        icon: "mdi-soccer",
+        text: t("examples"),
+        name: "examples",
+        route: "/examples",
+        disabled: false,
+        separator: false,
+      },
+      {
+        icon: "mdi-grid",
+        text: t("gridDemo"),
+        name: "gridDemo",
+        route: "/grid",
+        disabled: false,
+        separator: false,
+      },
+      {
+        icon: "mdi-account",
+        text: t("account"),
+        name: "account",
+        route: "/account",
+        disabled: false,
+        separator: false,
+      },
+      {
+        icon: "mdi-information",
+        text: t("about"),
+        name: "about",
+        route: "/about",
+        disabled: false,
+        separator: false,
+      },
+      {
+        icon: "mdi-lifebuoy",
+        text: "q-help",
+        name: "qhelp",
+        route: "/qhelp",
+        disabled: false,
+        separator: true,
+      },
+    ];
+  }
 
   const links = ref([
     {
@@ -126,9 +123,6 @@
 
   function toggleLanguage() {
     locale.value = locale.value == "hu" ? "en" : "hu";
-    menuItems.value.forEach((e) => {
-      if (e.name != "") e.text = t(e.name);
-    });
   }
 </script>
 
@@ -168,7 +162,7 @@
         <q-scroll-area class="fit">
           <!-- routes: -->
           <q-list>
-            <template v-for="(menuItem, index) in menuItems" :key="index">
+            <template v-for="(menuItem, index) in menuItems()" :key="index">
               <q-item clickable :disable="menuItem.disabled" :to="menuItem.route">
                 <q-item-section avatar>
                   <q-icon :name="menuItem.icon" />

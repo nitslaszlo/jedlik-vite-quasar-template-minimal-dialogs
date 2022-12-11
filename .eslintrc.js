@@ -31,6 +31,7 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "vue/multi-word-component-names": "off",
     // "sort-imports": ["error", { ignoreCase: true }],
     "vue/attributes-order": ["error", { alphabetical: true }],

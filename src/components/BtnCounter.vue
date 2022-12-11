@@ -31,12 +31,6 @@
       <q-btn data-test="plus" @click="plus">+</q-btn>
     </q-btn-group>
     <q-separator />
-    <q-input
-      v-model="color"
-      data-test="color"
-      label="Change the color:"
-      outlined
-      type="text"
-    ></q-input>
+    <q-input v-model="color" data-test="color" label="Change the color:" outlined type="text"></q-input>
   </q-page>
 </template>
