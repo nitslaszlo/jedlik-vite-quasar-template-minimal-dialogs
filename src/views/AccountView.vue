@@ -17,6 +17,7 @@
         v-if="!appStore.showLoginDialog"
         class="shadow-10"
         color="info"
+        data-cy="btnLoginLogout"
         data-test="btnLoginLogout"
         :label="anyLoggedUser ? 'Show logout dialog' : 'Show login dialog'"
         no-caps

@@ -7,10 +7,7 @@
 
   const postsStore = usePostsStore();
 
-  let { t } = useI18n({
-    inheritLocale: true,
-    useScope: "global", // Change to "local" if you want to add <i18n></i18n> locally
-  });
+  let { t } = useI18n();
 
   // isLoading variable is reactive, but we need convert to ref() for watch
   const { isLoading } = storeToRefs(postsStore);
@@ -169,12 +166,12 @@
         <q-form class="q-mx-md" @reset="resetPostDialog()" @submit="submitEditPostDialog()">
           <div class="row">
             <div v-if="postsStore.data" class="col-12 q-gutter-md">
-              <h4 class="text-center q-mt-lg q-mb-none">Edit post</h4>
-              <q-input v-model="postsStore.data.title" filled label="Title:" type="text" />
-              <q-input v-model="postsStore.data.content" filled label="Content:" type="textarea" />
+              <h4 class="text-center q-mt-lg q-mb-none">{{ $t("editPost") }}</h4>
+              <q-input v-model="postsStore.data.title" filled :label="$t('title')" type="text" />
+              <q-input v-model="postsStore.data.content" filled :label="$t('content')" type="textarea" />
               <div class="row justify-center">
-                <q-btn class="q-mr-md" color="green" label="Save" no-caps type="submit" />
-                <q-btn class="q-mr-md" color="red" label="Cancel" no-caps type="reset" />
+                <q-btn class="q-mr-md" color="green" :label="$t('save')" no-caps type="submit" />
+                <q-btn class="q-mr-md" color="red" :label="$t('cancel')" no-caps type="reset" />
               </div>
             </div>
           </div>
@@ -187,12 +184,12 @@
         <q-form class="q-mx-md" @reset="resetPostDialog()" @submit="submitNewPostDialog()">
           <div class="row">
             <div v-if="postsStore.data" class="col-12 q-gutter-md">
-              <h4 class="text-center q-mt-lg q-mb-none">New post</h4>
-              <q-input v-model="postsStore.data.title" filled label="Title:" type="text" />
-              <q-input v-model="postsStore.data.content" filled label="Content:" type="textarea" />
+              <h4 class="text-center q-mt-lg q-mb-none">{{ t("newPost") }}</h4>
+              <q-input v-model="postsStore.data.title" filled :label="$t('title')" type="text" />
+              <q-input v-model="postsStore.data.content" filled :label="$t('content')" type="textarea" />
               <div class="row justify-center">
-                <q-btn class="q-mr-md" color="green" label="Save" no-caps type="submit" />
-                <q-btn class="q-mr-md" color="red" label="Cancel" no-caps type="reset" />
+                <q-btn class="q-mr-md" color="green" :label="$t('save')" no-caps type="submit" />
+                <q-btn class="q-mr-md" color="red" :label="$t('cancel')" no-caps type="reset" />
               </div>
             </div>
           </div>

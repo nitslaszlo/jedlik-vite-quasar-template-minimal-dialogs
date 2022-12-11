@@ -22,6 +22,8 @@
   "search": "Keresés",
   "rowsPerPageLabel": "Sorok/oldal",
   "title": "Cím",
-  "content": "Tartalom"
+  "content": "Tartalom",
+  "save": "Mentés",
+  "cancel": "Mégsem"
 }
 

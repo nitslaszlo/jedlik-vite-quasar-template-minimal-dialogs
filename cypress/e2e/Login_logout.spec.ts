@@ -1,5 +1,5 @@
 context("Test login / logout", () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit("/account");
   });
 
@@ -8,7 +8,8 @@ context("Test login / logout", () => {
 
     cy.get('[data-test="btnLoginLogout"]').then(($btn) => {
       if ($btn.text() == "Show login dialog") {
-        cy.getBySel("btnLoginLogout").click();
+        cy.dataCy("btnLoginLogout").should("exist");
+        cy.get('[data-test="btnLoginLogout"]').click();
         cy.get('[data-test="QInputEmail"]').clear().type("student002@jedlik.eu");
         cy.get('[data-test="QInputPassword"]').clear().type("student002");
         cy.get('[data-test="btnLoginLogoutDialog"]').click();

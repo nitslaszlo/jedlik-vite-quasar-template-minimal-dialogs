@@ -26,16 +26,9 @@ test("Test AccountView", async () => {
 
   const inputPassword = inner.find('[data-test="QInputPassword"]');
 
-  await inputPassword.setValue("alma");
-  // expect(inputPassword.element).toBe("alma");
   // expect(inner.get('[data-test="QCheckBoxLength"]').isVisible());
   // expect(inner.get('[data-test="QCheckBoxLength"]').classes()).toContain("text-green");
 
   expect(inputPassword.getCurrentComponent()?.props.modelValue).toBe("student001");
   console.log(inputPassword.html());
-
-  // console.log("html():");
-  // console.log(inner.html());
-  // console.log("text():");
-  // console.log(inputPassword.text());
 });

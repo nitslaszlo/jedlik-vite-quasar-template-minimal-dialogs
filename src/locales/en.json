@@ -22,5 +22,7 @@
   "search": "Search",
   "rowsPerPageLabel": "Rows/page",
   "title": "Title",
-  "content": "Content"
+  "content": "Content",
+  "save": "Save",
+  "cancel": "Cancel"
 }
