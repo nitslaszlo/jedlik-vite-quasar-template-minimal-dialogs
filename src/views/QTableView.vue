@@ -1,11 +1,13 @@
 <script setup lang="ts">
   import { QTableProps } from "quasar";
   import { usePostsStore } from "../store/postsStore";
+  import { useAppStore } from "../store/appStore";
   import { onMounted, watch } from "vue";
   import { storeToRefs } from "pinia";
   import { useI18n } from "vue-i18n";
 
   const postsStore = usePostsStore();
+  const appStore = useAppStore();
 
   let { t } = useI18n();
 
@@ -77,12 +79,12 @@
   function editPost(): void {
     postsStore.data = postsStore.selected[0];
     postsStore.getPostById();
-    postsStore.showEditPostDialog = true;
+    appStore.showEditPostDialog = true;
   }
 
   function newPost(): void {
     postsStore.data = {};
-    postsStore.showNewPostDialog = true;
+    appStore.showNewPostDialog = true;
   }
 
   function submitEditPostDialog() {
@@ -91,7 +93,7 @@
       filter: postsStore.filter,
       pagination: postsStore.pagination,
     });
-    postsStore.showEditPostDialog = false;
+    appStore.showEditPostDialog = false;
   }
 
   function submitNewPostDialog() {
@@ -100,7 +102,7 @@
       filter: postsStore.filter,
       pagination: postsStore.pagination,
     });
-    postsStore.showNewPostDialog = false;
+    appStore.showNewPostDialog = false;
   }
 
   function resetPostDialog() {
@@ -108,8 +110,8 @@
       filter: postsStore.filter,
       pagination: postsStore.pagination,
     });
-    postsStore.showEditPostDialog = false;
-    postsStore.showNewPostDialog = false;
+    appStore.showEditPostDialog = false;
+    appStore.showNewPostDialog = false;
   }
 </script>
 
@@ -161,7 +163,7 @@
       </div>
     </div>
     <!-- Edit post dialog: -->
-    <q-dialog v-model="postsStore.showEditPostDialog" persistent>
+    <q-dialog v-model="appStore.showEditPostDialog" persistent>
       <q-card class="q-pa-md" style="width: 60vw; min-width: 300px">
         <q-form class="q-mx-md" @reset="resetPostDialog()" @submit="submitEditPostDialog()">
           <div class="row">
@@ -179,7 +181,7 @@
       </q-card>
     </q-dialog>
     <!-- New post dialog: -->
-    <q-dialog v-model="postsStore.showNewPostDialog" persistent>
+    <q-dialog v-model="appStore.showNewPostDialog" persistent>
       <q-card class="q-pa-md" style="width: 60vw; min-width: 300px">
         <q-form class="q-mx-md" @reset="resetPostDialog()" @submit="submitNewPostDialog()">
           <div class="row">

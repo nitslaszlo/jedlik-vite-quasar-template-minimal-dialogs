@@ -32,8 +32,6 @@ interface IState {
   selected: Array<IPost>;
   pagination: IPagination;
   filter: string;
-  showEditPostDialog: boolean;
-  showNewPostDialog: boolean;
 }
 
 export const usePostsStore = defineStore({
@@ -52,8 +50,6 @@ export const usePostsStore = defineStore({
       rowsPerPage: 5,
       rowsNumber: 0,
     },
-    showEditPostDialog: false,
-    showNewPostDialog: false,
   }),
   getters: {
     // example getter, not in use
