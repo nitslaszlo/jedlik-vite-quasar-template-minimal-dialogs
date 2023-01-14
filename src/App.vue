@@ -144,7 +144,7 @@
             </q-avatar>
           </q-btn>
           <q-btn flat icon="mdi-comment-text-multiple" @click="toggleLanguage">
-            <q-badge color="red" floating>{{ locale }}</q-badge>
+            <q-badge color="red" floating :label="locale" />
           </q-btn>
           <q-btn flat icon="mdi-theme-light-dark" @click="$q.dark.toggle" />
           <q-btn dense flat icon="mdi-menu" round @click="leftDrawer = !leftDrawer" />

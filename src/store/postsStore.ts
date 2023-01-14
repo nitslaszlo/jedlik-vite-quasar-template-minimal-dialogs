@@ -121,30 +121,30 @@ export const usePostsStore = defineStore({
             color: "negative",
           });
           this.isLoading = false;
-          return;
-        }
-        Loading.show();
-        this.isLoading = true;
-        $axios
-          .patch(`posts/${this.data._id}`, diff)
-          .then((res) => {
-            Loading.hide();
-            if (res && res.data) {
-              this.isLoading = false;
-              this.selected[0] = res.data;
+        } else {
+          Loading.show();
+          this.isLoading = true;
+          $axios
+            .patch(`posts/${this.data._id}`, diff)
+            .then((res) => {
+              Loading.hide();
+              if (res && res.data) {
+                this.isLoading = false;
+                this.selected[0] = res.data;
+                Notify.create({
+                  message: `Post with id=${res.data._id} has been edited successfully!`,
+                  color: "positive",
+                });
+              }
+            })
+            .catch((error) => {
+              Loading.hide();
               Notify.create({
-                message: `Post with id=${res.data._id} has been edited successfully!`,
-                color: "positive",
+                message: `Error (${error.response.data.status}) while edit by id: ${error.response.data.message}`,
+                color: "negative",
               });
-            }
-          })
-          .catch((error) => {
-            Loading.hide();
-            Notify.create({
-              message: `Error (${error.response.data.status}) while edit by id: ${error.response.data.message}`,
-              color: "negative",
             });
-          });
+        }
       }
     },
     async deleteById(): Promise<void> {

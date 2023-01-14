@@ -11,6 +11,15 @@ Volar provides a feature called "Takeover Mode" to improve performance. In takeo
 - Find "TypeScript and JavaScript Language Features", right click and select: Disable (Workspace)
 2. Reload VSCode
 
+# Debug your application
+- Start build process with Ctrl-Shift-B or "npm run dev" command
+- Close the borwser if it appears
+- Open the default browser in debug mode with F5 key
+- Open the page where you want to debug the code
+- Set some breakpoints before lines in the page's TS code
+- In the browser cause the process to reach the breakpoint(S)
+- Examine the variables, continue the execution step by step (F10, F11, for next breakpont: F5)
+
 # Used technologies
 
 ## Node.js
