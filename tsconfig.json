@@ -13,7 +13,14 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "types": ["node", "vite/client", "vitest", "vitest/globals", "@intlify/vite-plugin-vue-i18n/client"],
+    "types": [
+      "node",
+      "vite/client",
+      "vitest",
+      "vitest/globals",
+      "@intlify/unplugin-vue-i18n/messages",
+      "pinia-plugin-persist"
+    ],
     "paths": {
       "src/*": ["src/*"],
       "/src/*": ["src/*"],

@@ -13,4 +13,7 @@ export const useAppStore = defineStore({
     showEditPostDialog: false,
     showNewPostDialog: false,
   }),
+  persist: {
+    enabled: true,
+  },
 });
