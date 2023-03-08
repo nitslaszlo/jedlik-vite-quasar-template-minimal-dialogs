@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const $axios = axios.create({
-  baseURL: "https://jedlik-backend.cyclic.app/",
+  baseURL: "https://jedliksession.cyclic.app/",
   withCredentials: true,
 });
 

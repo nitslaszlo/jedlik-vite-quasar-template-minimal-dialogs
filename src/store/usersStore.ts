@@ -132,4 +132,11 @@ export const useUsersStore = defineStore({
   persist: {
     enabled: true,
   },
+  // persist: {
+  //   enabled: true,
+  //   strategies: [
+  //     { storage: sessionStorage, paths: ["loggedUser", "otherField1"] },
+  //     { storage: localStorage, paths: ["otherField2"] },
+  //   ],
+  // },
 });

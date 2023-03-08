@@ -16,4 +16,11 @@ export const useAppStore = defineStore({
   persist: {
     enabled: true,
   },
+  // persist: {
+  //   enabled: true,
+  //   strategies: [
+  //     { storage: sessionStorage, paths: ["showLoginDialog", "showEditPostDialog"] },
+  //     { storage: localStorage, paths: ["otherField"] },
+  //   ],
+  // },
 });
