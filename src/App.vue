@@ -11,7 +11,7 @@
   let { locale, t } = useI18n();
 
   onMounted(() => {
-    // usersStore.autoLogin();
+    usersStore.autoLogin();
   });
 
   // Watch browser or browser page is close
@@ -19,7 +19,7 @@
     "beforeunload",
     () => {
       if (usersStore.loggedUser) {
-        // usersStore.closeApp();
+        usersStore.closeApp();
       }
     },
     false
@@ -83,7 +83,7 @@
       icon: "mdi-github",
       text: "GitHub repo",
       name: "",
-      link: "https://github.com/nitslaszlo/jedlik-vite-quasar-template-minimal",
+      link: "https://github.com/nitslaszlo/jedlik-vite-quasar-template-minimal-dialogs",
       disabled: false,
       separator: false,
     },

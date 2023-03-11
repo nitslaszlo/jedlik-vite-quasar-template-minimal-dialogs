@@ -148,20 +148,17 @@ export const usePostsStore = defineStore({
       }
     },
     async deleteById(): Promise<void> {
-      Loading.show();
-      this.isLoading = true;
-      if (this.selected.length) {
+      while (this.selected.length) {
+        Loading.show();
+        this.isLoading = true;
         const id_for_delete = this.selected.pop()?._id;
         await $axios
           .delete(`posts/${id_for_delete}`)
           .then(() => {
-            Loading.hide();
             Notify.create({
               message: `Document with id=${id_for_delete} has been deleted successfully!`,
               color: "positive",
             });
-            if (this.selected.length) this.deleteById(); // recursive call
-            else this.isLoading = false;
           })
           .catch((error) => {
             Loading.hide();
@@ -170,6 +167,8 @@ export const usePostsStore = defineStore({
               color: "negative",
             });
           });
+        Loading.hide();
+        this.isLoading = false;
       }
     },
     async fetchPaginatedPosts(): Promise<void> {
