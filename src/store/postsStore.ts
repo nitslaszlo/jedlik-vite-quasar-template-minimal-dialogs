@@ -51,16 +51,19 @@ export const usePostsStore = defineStore({
       rowsNumber: 0,
     },
   }),
+
   getters: {
     // example getter, not in use
     getPosts(): Array<IPost> {
       return this.posts;
     },
   },
+
   actions: {
     async getPostById(): Promise<void> {
       if (this.data && this.data._id) {
         Loading.show();
+        this.isLoading = false;
         $axios
           .get(`posts/${this.data._id}`)
           .then((res) => {
@@ -71,14 +74,18 @@ export const usePostsStore = defineStore({
             }
           })
           .catch((error) => {
-            Loading.hide();
             Notify.create({
               message: `Error while get post by id: ${error.response.data.message}`,
               color: "negative",
             });
+          })
+          .finally(() => {
+            Loading.hide();
+            this.isLoading = false;
           });
       }
     },
+
     async createNewPost(): Promise<void> {
       Loading.show();
       this.isLoading = true;
@@ -94,18 +101,18 @@ export const usePostsStore = defineStore({
               color: "positive",
             });
           }
-          Loading.hide();
-          this.isLoading = false;
         })
         .catch((error) => {
-          Loading.hide();
-          this.isLoading = false;
           Notify.create({
             message: `Error in create post: ${error.response.data.message}`,
             color: "negative",
           });
+        })
+        .finally(() => {
+          this.fetchPaginatedPosts();
         });
     },
+
     async editPostById(): Promise<void> {
       if (this.data && this.data._id) {
         const diff: any = {}; // only the changed fields are included
@@ -120,16 +127,13 @@ export const usePostsStore = defineStore({
             message: "Nothing changed!",
             color: "negative",
           });
-          this.isLoading = false;
         } else {
           Loading.show();
           this.isLoading = true;
           $axios
             .patch(`posts/${this.data._id}`, diff)
             .then((res) => {
-              Loading.hide();
               if (res && res.data) {
-                this.isLoading = false;
                 this.selected[0] = res.data;
                 Notify.create({
                   message: `Post with id=${res.data._id} has been edited successfully!`,
@@ -138,19 +142,24 @@ export const usePostsStore = defineStore({
               }
             })
             .catch((error) => {
-              Loading.hide();
               Notify.create({
                 message: `Error (${error.response.data.status}) while edit by id: ${error.response.data.message}`,
                 color: "negative",
               });
+            })
+            .finally(() => {
+              this.fetchPaginatedPosts();
             });
         }
       }
     },
+
     async deleteById(): Promise<void> {
-      while (this.selected.length) {
+      if (this.selected.length > 0) {
         Loading.show();
         this.isLoading = true;
+      }
+      while (this.selected.length) {
         const id_for_delete = this.selected.pop()?._id;
         await $axios
           .delete(`posts/${id_for_delete}`)
@@ -161,18 +170,20 @@ export const usePostsStore = defineStore({
             });
           })
           .catch((error) => {
-            Loading.hide();
             Notify.create({
               message: `Error (${error.response.data.status}) while delete by id: ${error.response.data.message}`,
               color: "negative",
             });
+          })
+          .finally(() => {
+            if (this.selected.length == 0) this.fetchPaginatedPosts();
           });
-        Loading.hide();
-        this.isLoading = false;
       }
     },
+
     async fetchPaginatedPosts(): Promise<void> {
       Loading.show();
+      this.isLoading = true;
       $axios
         .get(
           `posts/${(this.pagination.page - 1) * this.pagination.rowsPerPage!}/${this.pagination.rowsPerPage!}/${
@@ -184,15 +195,17 @@ export const usePostsStore = defineStore({
             this.posts = res.data.posts;
             this.pagination!.rowsNumber = res.data.count;
           }
-          Loading.hide();
         })
         .catch((error) => {
-          Loading.hide();
           const status = error.response.data.status;
           Notify.create({
             message: `${error.response.data.message} (${status})`,
             color: "negative",
           });
+        })
+        .finally(() => {
+          Loading.hide();
+          this.isLoading = false;
         });
     },
   },

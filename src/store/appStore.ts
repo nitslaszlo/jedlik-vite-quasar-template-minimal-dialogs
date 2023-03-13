@@ -16,6 +16,7 @@ export const useAppStore = defineStore({
   persist: {
     enabled: true,
   },
+  // presist sample settings:
   // persist: {
   //   enabled: true,
   //   strategies: [

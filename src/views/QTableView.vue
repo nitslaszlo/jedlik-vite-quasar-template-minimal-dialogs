@@ -2,26 +2,13 @@
   import { QTableProps } from "quasar";
   import { usePostsStore } from "../store/postsStore";
   import { useAppStore } from "../store/appStore";
-  import { onMounted, watch } from "vue";
-  import { storeToRefs } from "pinia";
+  import { onMounted } from "vue";
   import { useI18n } from "vue-i18n";
 
   const postsStore = usePostsStore();
   const appStore = useAppStore();
 
   let { t } = useI18n();
-
-  // isLoading variable is reactive, but we need convert to ref() for watch
-  const { isLoading } = storeToRefs(postsStore);
-  watch(isLoading, () => {
-    if (isLoading.value == false) {
-      // if turn from true to false:
-      onRequest({
-        filter: postsStore.filter,
-        pagination: postsStore.pagination,
-      });
-    }
-  });
 
   interface IColumns {
     name: string;
@@ -89,27 +76,15 @@
 
   function submitEditPostDialog() {
     postsStore.editPostById();
-    onRequest({
-      filter: postsStore.filter,
-      pagination: postsStore.pagination,
-    });
     appStore.showEditPostDialog = false;
   }
 
   function submitNewPostDialog() {
     postsStore.createNewPost();
-    onRequest({
-      filter: postsStore.filter,
-      pagination: postsStore.pagination,
-    });
     appStore.showNewPostDialog = false;
   }
 
   function resetPostDialog() {
-    onRequest({
-      filter: postsStore.filter,
-      pagination: postsStore.pagination,
-    });
     appStore.showEditPostDialog = false;
     appStore.showNewPostDialog = false;
   }

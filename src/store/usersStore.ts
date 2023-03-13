@@ -25,30 +25,35 @@ interface IUser {
   password?: string;
   picture?: string;
   address?: null | IAddress;
+  roles: string[];
 }
 
 interface IState {
   loggedUser: null | IUser;
+  isLoading: boolean;
 }
 
 export const useUsersStore = defineStore({
   id: "usersStore",
   state: (): IState => ({
     loggedUser: null,
+    isLoading: false,
   }),
+
   getters: {
     getLoggedUser(): null | IUser {
       return this.loggedUser;
     },
   },
+
   actions: {
     async loginRegisterWithGoogle(accessToken: string) {
       Loading.show();
+      this.isLoading = true;
       $axios
         .post("auth/google", { atoken: accessToken })
         .then((res) => {
           this.loggedUser = res.data;
-          Loading.hide();
           Notify.create({
             message: `${res.data.name} with ${res.data.email} e-mail is logged in`,
             color: "positive",
@@ -56,12 +61,17 @@ export const useUsersStore = defineStore({
         })
         .catch(() => {
           this.loggedUser = null;
-          Loading.hide();
           Notify.create({ message: "Error on Authentication", color: "negative" });
+        })
+        .finally(() => {
+          Loading.hide();
+          this.isLoading = false;
         });
     },
+
     async loginUser(params: IUser): Promise<void> {
       Loading.show();
+      this.isLoading = true;
       $axios
         .post("auth/login", {
           email: params.email,
@@ -69,7 +79,6 @@ export const useUsersStore = defineStore({
         })
         .then((res) => {
           this.loggedUser = res.data;
-          Loading.hide();
           Notify.create({
             message: `${res.data.name} with ${res.data.email} e-mail is logged in`,
             color: "positive",
@@ -77,12 +86,17 @@ export const useUsersStore = defineStore({
         })
         .catch(() => {
           this.loggedUser = null;
-          Loading.hide();
           Notify.create({ message: "Error on Authentication", color: "negative" });
+        })
+        .finally(() => {
+          Loading.hide();
+          this.isLoading = false;
         });
     },
+
     async autoLogin(): Promise<void> {
       Loading.show();
+      this.isLoading = true;
       $axios
         .post("auth/autologin")
         .then((res) => {
@@ -91,25 +105,27 @@ export const useUsersStore = defineStore({
           } else {
             this.loggedUser = res.data;
           }
-          Loading.hide();
         })
         .catch((error) => {
           this.loggedUser = null;
+          Notify.create({
+            message: `Auto login not aviable! ${error.response.data.message}`,
+            color: "negative",
+          });
+        })
+        .finally(() => {
           Loading.hide();
-          console.log(error.response.data.message);
-          // Notify.create({
-          //   message: `Auto login not aviable! ${error.response.data.message}`,
-          //   color: "negative",
-          // });
+          this.isLoading = false;
         });
     },
+
     async logOut(withNotify = true): Promise<void> {
       Loading.show();
+      this.isLoading = true;
       $axios
         .post("auth/logout")
         .then(() => {
           this.loggedUser = null;
-          Loading.hide();
           if (withNotify) {
             Notify.create({
               message: "Successful logout",
@@ -119,19 +135,25 @@ export const useUsersStore = defineStore({
         })
         .catch(() => {
           this.loggedUser = null;
-          Loading.hide();
           Notify.create({ message: "Error on log out", color: "negative" });
+        })
+        .finally(() => {
+          this.isLoading = false;
+          Loading.hide();
         });
     },
+
     async closeApp(): Promise<void> {
       $axios.post("auth/closeapp").then(() => {
         this.loggedUser = null;
       });
     },
   },
+
   persist: {
     enabled: true,
   },
+  // presist sample settings:
   // persist: {
   //   enabled: true,
   //   strategies: [
