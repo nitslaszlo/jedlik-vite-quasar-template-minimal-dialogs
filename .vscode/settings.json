@@ -53,5 +53,6 @@
   "i18n-ally.localesPaths": ["src/locales"],
   "i18n-ally.keystyle": "nested",
   "i18n-ally.sourceLanguage": "en",
-  "volar.inlayHints.eventArgumentInInlineHandlers": false
+  "volar.inlayHints.eventArgumentInInlineHandlers": false,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

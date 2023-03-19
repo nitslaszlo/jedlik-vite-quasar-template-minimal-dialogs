@@ -104,6 +104,10 @@ export const useUsersStore = defineStore({
             this.loggedUser = null;
           } else {
             this.loggedUser = res.data;
+            Notify.create({
+              message: `Auto login success with ${this.loggedUser?.email}}`,
+              color: "positive",
+            });
           }
         })
         .catch((error) => {
