@@ -140,7 +140,7 @@
           </q-toolbar-title>
           <q-btn v-if="usersStore.loggedUser" round>
             <q-avatar size="38px">
-              <q-img referrerpolicy="no-referrer" :src="(usersStore.loggedUser.picture as string)" />
+              <q-img referrerpolicy="no-referrer" :src="usersStore.loggedUser.picture as string" />
             </q-avatar>
           </q-btn>
           <q-btn flat icon="mdi-comment-text-multiple" @click="toggleLanguage">
@@ -201,7 +201,7 @@
       <q-footer elevated reveal>
         <q-toolbar>
           <q-toolbar-title class="text-center my-title">
-            Vite-Quasar minimal {{ $t("template") }} 2022 -
+            Vite-Quasar minimal {{ $t("template") }} 2024 -
             {{ usersStore.loggedUser ? usersStore.loggedUser?.name : $t("arentLoggedIn") }}
           </q-toolbar-title>
         </q-toolbar>
